@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="With the popularity of implicit neural representations, or neural radiance fields (NeRF), there is a pressing need for editing methods to interact with the implicit 3D models for tasks like post-processing reconstructed scenes and 3D content creation. While previous works have explored NeRF editing from various perspectives, they are restricted in editing flexibility, quality, and speed, failing to offer direct editing response and instant preview. The key challenge is to conceive a locally editable neural representation that can directly reflect the editing instructions and update instantly. To bridge the gap, we propose a new interactive editing method and system for implicit representations, called Seal-3D, which allows users to edit NeRF models in a pixel-level and free manner with a wide range of NeRF-like backbone and preview the editing effects instantly. To achieve the effects, the challenges are addressed by our proposed proxy function mapping the editing instructions to the original space of NeRF models and a teacher-student training strategy with local pretraining and global finetuning. A NeRF editing system is built to showcase various editing types. Our system can achieve compelling editing effects with an interactive speed of about 1 second.">
+  <meta name="keywords" content="NeRF, Reconstruction, Editing">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Seal-3D: Interactive Pixel-Level Editing for Neural Radiance Field</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <link rel="stylesheet" href="./definitive-image-comparison-slider-master/src/dics.css">
+  <script src="./definitive-image-comparison-slider-master/src/dics.js"></script>
+	<script>
+    document.addEventListener('DOMContentLoaded', domReady);
+    function domReady() {
+      var b = document.querySelectorAll('.b-dics');
+      b.forEach(element => 
+        new Dics({
+          container: element,
+          textPosition: 'top'
+        })
+      );
+    }
+	</script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://jingsenzhu.github.io">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <!-- <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://jingsenzhu.github.io/invrend">
+            Learning-based Inverse Rendering
+          </a>
+        </div> -->
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title" style="font-size:36px;">
+            Seal-3D: Interactive Pixel-Level Editing for Neural Radiance Field
+          </h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block" style="font-size: 22px;">
+              <a href="https://scholar.google.com/citations?user=74_PEUIAAAAJ">Xiangyu Wang</a><sup>1*</sup>,
+            </span>
+            <span class="author-block" style="font-size: 22px;">
+              <a href="https://jingsenzhu.github.io/">Jingsen Zhu</a><sup>2*</sup>,
+            </span>
+            <span class="author-block" style="font-size: 22px;">
+              <a href="https://person.zju.edu.cn/en/yeqi/">Qi Ye</a><sup>1†</sup>,
+            </span>
+            <span class="author-block" style="font-size: 22px;">
+              <a href="https://person.zju.edu.cn/en/yuchihuo/">Yuchi Huo</a><sup>3,2</sup>,
+            </span>
+            <span class="author-block" style="font-size: 22px;">
+              Yunlong Ran<sup>1</sup>,
+            </span>
+            <span class="author-block" style="font-size: 22px;">
+              Zhihua Zhong<sup>2</sup>,
+            </span>
+            <span class="author-block" style="font-size: 22px;">
+              Jiming Chen<sup>1</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block" style="font-size: 18px;"><sup>1</sup>Zhejiang University, Key Lab of CS&AUS of Zhejiang Province,</span>
+            <span class="author-block" style="font-size: 18px;"><sup>2</sup>State Key Lab of CAD&CG, Zhejiang University</span>
+            <span class="author-block" style="font-size: 18px;"><sup>3</sup>Zhejiang Lab,</span>
+          </div>
+          <!-- <div class="is-size-5 publication-authors">
+            <strong>CVPR 2023</strong>
+          </div> -->
+          <h2 style="font-size:24px;color:#6e6e6e">ICCV 2023</h2>
+
+          <div class="column has-text-centered">
+            <div class="link-block">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Supplementary</span>
+                </a>
+              </span> -->
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/windingwind/seal-3d/"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                </a>
+              </span>
+              <!-- Dataset Link. -->
+              <!-- <span class="link-block">
+                <a href="https://mega.nz/folder/jdhDnTqL#Ija678SU2Va_JJOiwqmdEg"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                </a>
+              </span> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/teaser.png" alt="Seal-3D" />
+      <!-- <div class="columns is-centered has-text-centered"> -->
+        <!-- <div class="column">
+          <div class="content">
+            <div class="b-dics" style="width: 400px;">
+              <img src="static/images/teaser/0c_mono.png" alt="MonoSDF" />
+              <img src="static/images/teaser.png" alt="Ours" />
+            </div>
+          </div>
+        </div> -->
+        <!-- <div class="column">
+          <div class="content">
+            <div class="b-dics" style="width: 400px;">
+              <img src="static/images/teaser/0009_orig_filter.png" alt="Input" />
+              <img src="static/images/teaser/0009_relight_filter.png" alt="Relight" />
+            </div>
+          </div>
+        </div> -->
+      <!-- </div> -->
+      <h2 class="subtitle has-text-centered" style="font-size:16px;">
+        Seal-3D: The first interactive pixel level NeRF editing tool. We design an interactive user editing method and system Seal-3D, which achieves instant (~1s) preview (left) by our novel pretraining strategy. High-quality editing results can be further obtained by a short period (in 1 or 2 minutes) of finetuning. The editing results of our implemented editing tools (right) are view-consistent with rich shading details (e.g. shadows) on the original surface (left).
+      </h2>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <!-- Abstract. -->
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          With the popularity of implicit neural representations, or neural radiance fields (NeRF), there is a pressing need for editing methods to interact with the implicit 3D models for tasks like post-processing reconstructed scenes and 3D content creation. While previous works have explored NeRF editing from various perspectives, they are restricted in editing flexibility, quality, and speed, failing to offer direct editing response and instant preview. The key challenge is to conceive a locally editable neural representation that can directly reflect the editing instructions and update instantly. To bridge the gap, we propose a new interactive editing method and system for implicit representations, called Seal-3D, which allows users to edit NeRF models in a pixel-level and free manner with a wide range of NeRF-like backbone and preview the editing effects instantly. To achieve the effects, the challenges are addressed by our proposed proxy function mapping the editing instructions to the original space of NeRF models and a teacher-student training strategy with local pretraining and global finetuning. A NeRF editing system is built to showcase various editing types. Our system can achieve compelling editing effects with an interactive speed of about 1 second.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <div class="columns is-centered has-text-centered" id="video">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <video id="video" controls playsinline height="100%">
+          <source src="static/videos/supp.mp4"
+                  type="video/mp4">
+        </video>
+      </div>
+    </div>
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+<section class="section" id="geo">
+  <!-- Geometry. -->
+  <div class="container is-max-desktop has-text-centered">
+    <h2 class="title">Results</h2>
+    <div class="container">
+      <div id="geo-carousel" class="carousel results-carousel">
+        <div class="item item-0">
+          <div class="b-dics">
+            <img src="static/images/synthetic/lego.gif" alt="Original"/>
+            <img src="static/images/synthetic/lego-iccv.gif" alt="Edited" />
+          </div>
+        </div>
+        <div class="item item-1">
+          <div class="b-dics">
+            <img src="static/images/synthetic/chair.gif" alt="Original"/>
+            <img src="static/images/synthetic/chair-brush.gif" alt="Edited RGB" />
+            <img src="static/images/synthetic/chair-brush-depth.gif" alt="Edited Depth" />
+          </div>
+        </div>
+        <div class="item item-2">
+          <div class="b-dics">
+            <img src="static/images/synthetic/mic.gif" alt="Original"/>
+            <img src="static/images/synthetic/mic-blend.gif" alt="Edited" />
+          </div>
+        </div>
+        <div class="item item-3">
+          <div class="b-dics">
+            <img src="static/images/synthetic/ship.gif" alt="Original"/>
+            <img src="static/images/synthetic/ship-anchor.gif" alt="Edited" />
+          </div>
+        </div>
+        <!-- <div class="item item-4">
+          <div class="b-dics">
+            <img src="static/images/synthetic/lego.gif" alt="Original"/>
+            <img src="static/images/synthetic/lego-bbox-color.gif" alt="Edited" />
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <!-- <div class="content has-text-justified">
+      <br />
+      We analyze the <b>vanishing gradient</b> problem of SDF-based volume rendering techniques, which results in failures of existing methods to reconstruct off-surface small objects. We propose a novel <b>bubble loss</b> to tackle this.
+    </div> -->
+    <!--/ Geometry. -->
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@inproceedings{zhu2023i2sdf,
+    title = {I$^2$-SDF: Intrinsic Indoor Scene Reconstruction and Editing via Raytracing in Neural SDFs},
+    author = {Jingsen Zhu and Yuchi Huo and Qi Ye and Fujun Luan and Jifan Li and Dianbing Xi and Lisha Wang and Rui Tang and Wei Hua and Hujun Bao and Rui Wang},
+    booktitle = {CVPR},
+    year = {2023}
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="https://arxiv.org/pdf/2303.07634">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/jingsenzhu/" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            Thanks to <a
+              href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> for their excellent website templates.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  bulmaCarousel.attach('#geo-carousel', {
+    slidesToScroll: 1,
+    slidesToShow: 2,
+    infinite: true
+  });
+  bulmaCarousel.attach('#novel-carousel', {
+    slidesToScroll: 1,
+    slidesToShow: 2,
+    infinite: true
+  });
+  bulmaCarousel.attach('#edit-carousel', {
+    slidesToScroll: 1,
+    slidesToShow: 2,
+    infinite: true
+  });
+</script>
+
+</body>
+</html>
