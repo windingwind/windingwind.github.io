@@ -51,6 +51,68 @@
       }
     </script>
     <script src="./static/js/index.js"></script>
+    <script src="./static/js/zotero-meta.js"></script>
+    <script>
+      $(document).ready(function () {
+        const citations = [
+          {
+            name: "citation_title",
+            content:
+              "Seal-3D: Interactive Pixel-Level Editing for Neural Radiance Fields",
+          },
+          {
+            name: "citation_author",
+            content: "Wang, Xiangyu",
+          },
+          {
+            name: "citation_author",
+            content: "Zhu, Jingsen",
+          },
+          {
+            name: "citation_author",
+            content: "Ye, Qi",
+          },
+          {
+            name: "citation_author",
+            content: "Huo, Yuchi",
+          },
+          {
+            name: "citation_author",
+            content: "Ran, Yunlong",
+          },
+          {
+            name: "citation_author",
+            content: "Zhong, Zhihua",
+          },
+          {
+            name: "citation_author",
+            content: "Chen, Jiming",
+          },
+          {
+            name: "citation_date",
+            content: "2023/07/27",
+          },
+          {
+            name: "citation_online_date",
+            content: "2023/07/27",
+          },
+          {
+            name: "citation_pdf_url",
+            content: "https://arxiv.org/pdf/2307.15131",
+          },
+          {
+            name: "citation_arxiv_id",
+            content: "2307.15131",
+          },
+          {
+            name: "citation_abstract",
+            content:
+              " With the popularity of implicit neural representations, or neural radiance\nfields (NeRF), there is a pressing need for editing methods to interact with\nthe implicit 3D models for tasks like post-processing reconstructed scenes and\n3D content creation. While previous works have explored NeRF editing from\nvarious perspectives, they are restricted in editing flexibility, quality, and\nspeed, failing to offer direct editing response and instant preview. The key\nchallenge is to conceive a locally editable neural representation that can\ndirectly reflect the editing instructions and update instantly. To bridge the\ngap, we propose a new interactive editing method and system for implicit\nrepresentations, called Seal-3D, which allows users to edit NeRF models in a\npixel-level and free manner with a wide range of NeRF-like backbone and preview\nthe editing effects instantly. To achieve the effects, the challenges are\naddressed by our proposed proxy function mapping the editing instructions to\nthe original space of NeRF models and a teacher-student training strategy with\nlocal pretraining and global finetuning. A NeRF editing system is built to\nshowcase various editing types. Our system can achieve compelling editing\neffects with an interactive speed of about 1 second.\n",
+          },
+        ];
+        createCitationMeta(citations);
+      });
+    </script>
   </head>
   <body>
     <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -136,11 +198,9 @@
                   ><sup>3</sup>Zhejiang Lab,</span
                 >
               </div>
-              <!-- <div class="is-size-5 publication-authors">
-            <strong>CVPR 2023</strong>
-          </div> -->
-              <h2 style="font-size: 24px; color: #6e6e6e">ICCV 2023</h2>
-
+              <div class="is-size-5 publication-authors">
+                <strong>ICCV 2023</strong>
+              </div>
               <div class="column has-text-centered">
                 <div class="link-block">
                   <!-- PDF Link. -->
@@ -208,6 +268,13 @@
                 </a>
               </span> -->
                 </div>
+              </div>
+
+              <div style="font-size: 10px">
+                <a href="https://www.zotero.org/"
+                  ><b style="color: #a6212c">Z</b>otero Connector</a
+                >
+                friendly
               </div>
             </div>
           </div>
