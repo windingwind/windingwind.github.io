@@ -18,43 +18,43 @@ const PUBLICATIONS = [
     },
     badges: [],
   },
-  // {
-  //   title:
-  //     "ImmFusion: Robust mmWave-RGB Fusion for 3D Human Body Reconstruction in All Weather Conditions",
-  //   authors:
-  //     "Anjun Chen, Xiangyu Wang, Kun Shi, Shaohao Zhu, Bin Fang, Yingfeng Chen, Jiming Chen, Yuchi Huo, Qi Ye",
-  //   image: "https://chen3110.github.io/ImmFusion/resources/framework.png",
-  //   conference: "ICRA 2023",
-  //   links: {
-  //     "project page": "https://chen3110.github.io/ImmFusion/index.html",
-  //     paper: "",
-  //     arxiv: "https://arxiv.org/abs/2210.01346",
-  //     pdf: "https://arxiv.org/pdf/2210.01346",
-  //     supp: "",
-  //     video: "",
-  //     code: "https://github.com/Chen3110/ImmFusion",
-  //   },
-  //   badges: [],
-  // },
-  // {
-  //   title:
-  //     "mmBody Benchmark: 3D Body Reconstruction Dataset and Analysis for Millimeter Wave Radar",
-  //   authors:
-  //     "Anjun Chen, Xiangyu Wang, Shaohao Zhu, Yanxu Li, Jiming Chen, Qi Ye",
-  //   image: "https://chen3110.github.io/mmbody/resources/good_case.png",
-  //   conference: "ACM MM 2022",
-  //   links: {
-  //     "project page": "https://chen3110.github.io/mmbody/",
-  //     paper: "https://dl.acm.org/doi/10.1145/3503161.3548262",
-  //     arxiv: "https://arxiv.org/abs/2209.05070",
-  //     pdf: "https://arxiv.org/pdf/2209.05070",
-  //     supp: "",
-  //     video: "",
-  //     code: "",
-  //     data: "https://github.com/Chen3110/mmBody",
-  //   },
-  //   badges: [],
-  // },
+  {
+    title:
+      "ImmFusion: Robust mmWave-RGB Fusion for 3D Human Body Reconstruction in All Weather Conditions",
+    authors:
+      "Anjun Chen, Xiangyu Wang, Kun Shi, Shaohao Zhu, Bin Fang, Yingfeng Chen, Jiming Chen, Yuchi Huo, Qi Ye",
+    image: "https://chen3110.github.io/ImmFusion/resources/framework.png",
+    conference: "ICRA 2023",
+    links: {
+      "project page": "https://chen3110.github.io/ImmFusion/index.html",
+      paper: "",
+      arxiv: "https://arxiv.org/abs/2210.01346",
+      pdf: "https://arxiv.org/pdf/2210.01346",
+      supp: "",
+      video: "",
+      code: "https://github.com/Chen3110/ImmFusion",
+    },
+    badges: [],
+  },
+  {
+    title:
+      "mmBody Benchmark: 3D Body Reconstruction Dataset and Analysis for Millimeter Wave Radar",
+    authors:
+      "Anjun Chen, Xiangyu Wang, Shaohao Zhu, Yanxu Li, Jiming Chen, Qi Ye",
+    image: "https://chen3110.github.io/mmbody/resources/good_case.png",
+    conference: "ACM MM 2022",
+    links: {
+      "project page": "https://chen3110.github.io/mmbody/",
+      paper: "https://dl.acm.org/doi/10.1145/3503161.3548262",
+      arxiv: "https://arxiv.org/abs/2209.05070",
+      pdf: "https://arxiv.org/pdf/2209.05070",
+      supp: "",
+      video: "",
+      code: "",
+      data: "https://github.com/Chen3110/mmBody",
+    },
+    badges: [],
+  },
 ];
 
 const HIGHLIGHT_NAME = "xiangyu wang";
