@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="description"
+    content="NeuralPVS: Learned Estimation of Potentially Visible Sets. Real-time visibility determination in expansive or dynamically changing environments has long posed a significant challenge in computer graphics. NeuralPVS is the first deep-learning approach for visibility computation that efficiently determines from-region visibility in a large scene, running at approximately 100 Hz processing with less than 1% missing geometry." />
+  <meta name="keywords" content="NeuralPVS, Visibility, Graphics, Deep Learning" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>
+    NeuralPVS: Learned Estimation of Potentially Visible Sets
+  </title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css" />
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css" />
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css" />
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" />
+  <link rel="stylesheet" href="./static/css/index.css" />
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", domReady);
+    function domReady() {
+      var b = document.querySelectorAll(".b-dics");
+      b.forEach(
+        (element) =>
+          new Dics({
+            container: element,
+            textPosition: "top",
+          })
+      );
+    }
+  </script>
+  <script src="./static/js/index.js"></script>
+  <script src="./static/js/zotero-meta.js"></script>
+  <script>
+    $(document).ready(function () {
+      const citations = [
+        {
+          "name": "citation_title",
+          "content": "NeuralPVS: Learned Estimation of Potentially Visible Sets"
+        },
+        {
+          "name": "citation_author",
+          "content": "Wang, Xiangyu"
+        },
+        {
+          "name": "citation_author",
+          "content": "Köhler, Thomas"
+        },
+        {
+          "name": "citation_author",
+          "content": "Qiu, Jun Lin"
+        },
+        {
+          "name": "citation_author",
+          "content": "Mori, Shohei"
+        },
+        {
+          "name": "citation_author",
+          "content": "Steinberger, Markus"
+        },
+        {
+          "name": "citation_author",
+          "content": "Schmalstieg, Dieter"
+        },
+        {
+          "name": "citation_date",
+          "content": "2025/09/29"
+        },
+        {
+          "name": "citation_online_date",
+          "content": "2025/09/29"
+        },
+        {
+          "name": "citation_pdf_url",
+          "content": "https://arxiv.org/pdf/2509.24677"
+        },
+        {
+          "name": "citation_arxiv_id",
+          "content": "2509.24677"
+        },
+        {
+          "name": "citation_abstract",
+          "content": "Real-time visibility determination in expansive or dynamically changing environments has long posed a significant challenge in computer graphics. Existing techniques are computationally expensive and often applied as a precomputation step on a static scene. We present NeuralPVS, the first deep-learning approach for visibility computation that efficiently determines from-region visibility in a large scene, running at approximately 100 Hz processing with less than $1\\%$ missing geometry. This approach is possible by using a neural network operating on a voxelized representation of the scene. The network's performance is achieved by combining sparse convolution with a 3D volume-preserving interleaving for data compression. Moreover, we introduce a novel repulsive visibility loss that can effectively guide the network to converge to the correct data distribution. This loss provides enhanced robustness and generalization to unseen scenes. Our results demonstrate that NeuralPVS outperforms existing methods in terms of both accuracy and efficiency, making it a promising solution for real-time visibility computation."
+        }
+      ];
+      createCitationMeta(citations);
+    });
+  </script>
+</head>
+
+<body>
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start" style="flex-grow: 1; justify-content: center">
+        <a class="navbar-item" href="../index.html">
+          <span class="icon">
+            <i class="fas fa-home"></i>
+          </span>
+        </a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link"> More Research </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="../seal-3d/index.html">
+              Seal-3D: Interactive Pixel-Level Editing for Neural Radiance Fields
+            </a>
+            <a class="navbar-item" href="https://chen3110.github.io/mmbody/">
+              mmBody Benchmark: 3D Body Reconstruction Dataset and Analysis
+              for Millimeter Wave Radar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title" style="font-size: 36px">
+              NeuralPVS: Learned Estimation of Potentially Visible Sets
+            </h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block" style="font-size: 22px">
+                <a href="../index.html">Xiangyu Wang</a><sup>1</sup>,
+              </span>
+              <span class="author-block" style="font-size: 22px">Thomas Köhler<sup>2</sup>,</span>
+              <span class="author-block" style="font-size: 22px">Jun Lin Qiu<sup>2</sup>,</span>
+              <span class="author-block" style="font-size: 22px">Shohei Mori<sup>1</sup>,</span>
+              <span class="author-block" style="font-size: 22px">Markus Steinberger<sup>2</sup>,</span>
+              <span class="author-block" style="font-size: 22px">Dieter Schmalstieg<sup>1,2</sup></span>
+            </div>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block" style="font-size: 18px"><sup>1</sup>VISUS, University of Stuttgart,
+                Germany,</span>
+              <span class="author-block" style="font-size: 18px"><sup>2</sup>Graz University of Technology,
+                Austria</span>
+            </div>
+            <div class="is-size-5 publication-authors">
+              <strong>SIGGRAPH Asia 2025</strong>
+            </div>
+            <div class="column has-text-centered">
+              <div class="link-block">
+                <!-- PDF Link. -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/pdf/2509.24677" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2509.24677" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="#" class="external-link button is-normal is-rounded is-dark" disabled>
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+
+            <div style="font-size: 10px">
+              <a href="https://www.zotero.org/"><b style="color: #a6212c">Z</b>otero Connector</a>
+              friendly
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <img src="static/images/teaser.png" alt="NeuralPVS Teaser" />
+        <h2 class="subtitle has-text-centered" style="font-size: 16px">
+          Overview of the NeuralPVS pipeline. The left side illustrates the overall system and task, where the camera is
+          colored purple, and the white rendering indicates geometry invisible to the camera. A froxelized
+          representation of the input scene is fed into the neural network with interleaving layers and outputs the
+          potentially visible set (PVS) in froxelized form, as displayed in the middle. The network is trained with
+          pairs consisting of a froxelized scene and the corresponding ground-truth PVS in froxelized form. The network
+          runs at 100 Hz (10 ms per frame) on the GPU and generates less than 1% error rate, without introducing
+          noticeable artifacts in the rendered images. The right side shows the rendered PVS of the frame from a
+          bird's-eye view.
+        </h2>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!--/ Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Real-time visibility determination in expansive or dynamically changing environments has long posed a
+              significant challenge in computer graphics. Existing techniques are computationally expensive and often
+              applied as a precomputation step on a static scene. We present NeuralPVS, the first deep-learning approach
+              for visibility computation that efficiently determines from-region visibility in a large scene, running at
+              approximately 100 Hz processing with less than 1% missing geometry. This approach is possible by using a
+              neural network operating on a voxelized representation of the scene. The network's performance is achieved
+              by combining sparse convolution with a 3D volume-preserving interleaving for data compression. Moreover,
+              we introduce a novel repulsive visibility loss that can effectively guide the network to converge to the
+              correct data distribution. This loss provides enhanced robustness and generalization to unseen scenes. Our
+              results demonstrate that NeuralPVS outperforms existing methods in terms of both accuracy and efficiency,
+              making it a promising solution for real-time visibility computation.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paper video. -->
+      <div class="columns is-centered has-text-centered" id="video">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Video</h2>
+          <video id="video" controls playsinline height="100%">
+            <source src="static/videos/supp.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+
+      <!--/ Pipeline overview. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Pipeline</h2>
+          <div class="content has-text-justified">
+            <img src="static/images/pipeline.png" alt="NeuralPVS Pipeline" />
+            <p>
+              For each viewcell, the scene's geometry is froxelized into a GV (geometry froxel-grid), which is input to
+              the PVS (potentially visible set) estimator network. A 3D interleaving function first compresses the GV
+              channels; a CNN then
+              predicts the visible part of the geometry grid; afterwards, a 3D deinterleaving function reconstructs the
+              full PVS. Geometric primitives in froxels marked invisible in the PVS are
+              culled from all further rendering computations.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!--/ Results. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Results</h2>
+          <div class="content has-text-justified">
+            <img src="static/images/results-seq.png" alt="NeuralPVS Results" />
+            <br />
+            <p style="opacity: 0.8">
+              (FNR: false negative rate in froxels; FPR: false positive rate in froxels; PER: pixel error rate in the
+              rendered image.)
+            </p>
+            <p>
+              Per-frame PVS estimation performance with key frames images of the Viking Village scene in the video
+              above. The sequence has
+              1800 frames in total, with 410 frames of PVS computed shown in the figure. The error pixels of the key
+              frames are marked in red on the rendered image.
+            </p>
+
+            <p>
+              For more results, please refer to the paper.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@misc{wang2025neuralpvs,
+  title={NeuralPVS: Learned Estimation of Potentially Visible Sets},
+  author={Xiangyu Wang and Thomas Köhler and Jun Lin Qiu and Shohei Mori and Markus Steinberger and Dieter Schmalstieg},
+  year={2025},
+  eprint={2509.24677},
+  archivePrefix={arXiv},
+  primaryClass={cs.GR}
+}
+</code></pre>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <a class="icon-link" href="https://arxiv.org/pdf/2307.15131">
+          <i class="fas fa-file-pdf"></i>
+        </a>
+        <a class="icon-link" href="https://github.com/windingwind/" class="external-link" disabled>
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              Thanks to
+              <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>
+              for their excellent website templates.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    bulmaCarousel.attach("#geo-carousel", {
+      slidesToScroll: 1,
+      slidesToShow: 2,
+      infinite: true,
+    });
+    bulmaCarousel.attach("#novel-carousel", {
+      slidesToScroll: 1,
+      slidesToShow: 2,
+      infinite: true,
+    });
+    bulmaCarousel.attach("#edit-carousel", {
+      slidesToScroll: 1,
+      slidesToShow: 2,
+      infinite: true,
+    });
+  </script>
+</body>
+
+</html>
