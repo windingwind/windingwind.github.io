@@ -35,6 +35,11 @@ span.highlight {
   background-color: #fbe8ab; /* #ffffd0; */
 }
 
+[data-theme="dark"] span.highlight {
+  background-color: #8b6914;
+  color: #fff;
+}
+
 span.badge {
   font-size: 13px;
   background-color: #cd3f3f;
@@ -45,4 +50,47 @@ span.badge {
   padding-top: 0.05em;
   padding-bottom: 0.05em;
   border-radius: 10rem;
+}
+
+[data-theme="dark"] span.badge {
+  background-color: #e74c3c;
+}
+
+/* Publication table styles */
+.pub-image-cell {
+  padding: 10px;
+  width: 30%;
+  vertical-align: middle;
+}
+
+.pub-content-cell {
+  padding: 20px;
+  width: 70%;
+  vertical-align: middle;
+}
+
+.pub-image {
+  width: 100%;
+}
+
+.pub-placeholder {
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: #f0f0f0;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #666;
+  text-align: center;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="dark"] .pub-placeholder {
+  background-color: #3a3a3a;
+  border-color: #555;
+  color: #ccc;
 }

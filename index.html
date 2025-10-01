@@ -29,9 +29,16 @@
   <div class="blog-masthead">
     <div class="container">
       <nav class="blog-nav">
-        <a class="blog-nav-item active" href="">Home</a>
-        <a class="blog-nav-item" href="https://github.com/windingwind">GitHub</a>
-        <a class="blog-nav-item" href="https://scholar.google.com/citations?user=74_PEUIAAAAJ">Google Scholar</a>
+        <div class="nav-left">
+          <a class="blog-nav-item active" href="">Home</a>
+          <a class="blog-nav-item" href="https://github.com/windingwind">GitHub</a>
+          <a class="blog-nav-item" href="https://scholar.google.com/citations?user=74_PEUIAAAAJ">Google Scholar</a>
+        </div>
+        <div class="nav-right">
+          <button id="theme-toggle" class="blog-nav-item theme-toggle" title="Toggle theme">
+            <span class="theme-icon">🌙</span>
+          </button>
+        </div>
       </nav>
     </div>
   </div>
@@ -164,6 +171,48 @@
   <script src="static/js/jquery.min.js"
     integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
     crossorigin="anonymous"></script>
+  <script>
+    // Theme switching functionality
+    (function () {
+      const html = document.documentElement;
+
+      // Prevent initial transition flash
+      html.classList.add('no-transition');
+
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = document.querySelector('.theme-icon');
+
+      // Get saved theme or default to browser's preference
+      const getDefaultTheme = () => {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        return 'light';
+      };
+
+      const savedTheme = localStorage.getItem('theme') || getDefaultTheme();
+      html.setAttribute('data-theme', savedTheme);
+      updateThemeIcon(savedTheme);
+
+      // Re-enable transitions after a brief delay
+      setTimeout(() => {
+        html.classList.remove('no-transition');
+      }, 100);
+
+      themeToggle.addEventListener('click', function () {
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+      });
+
+      function updateThemeIcon(theme) {
+        themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+      }
+    })();
+  </script>
 </body>
 
 </html>

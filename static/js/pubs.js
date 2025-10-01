@@ -13,25 +13,12 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 // Functions to create HTML elements
 function createImageCell(link, title) {
   const cell = document.createElement("td");
-  cell.style.padding = "10px";
-  cell.style.width = "30%";
-  cell.style.verticalAlign = "middle";
+  cell.classList.add("pub-image-cell");
 
   if (!link || link.trim() === "") {
     // Create text placeholder when image link is empty
     const placeholder = document.createElement("div");
-    placeholder.style.width = "100%";
-    placeholder.style.aspectRatio = "1";
-    placeholder.style.backgroundColor = "#f0f0f0";
-    placeholder.style.border = "2px solid #ddd";
-    placeholder.style.borderRadius = "8px";
-    placeholder.style.display = "flex";
-    placeholder.style.alignItems = "center";
-    placeholder.style.justifyContent = "center";
-    placeholder.style.fontSize = "24px";
-    placeholder.style.fontWeight = "bold";
-    placeholder.style.color = "#666";
-    placeholder.style.textAlign = "center";
+    placeholder.classList.add("pub-placeholder");
 
     // Generate brief text from title
     const briefText = generateBriefText(title);
@@ -43,7 +30,7 @@ function createImageCell(link, title) {
     const img = document.createElement("img");
     img.src = link;
     img.alt = title;
-    img.style.width = "100%";
+    img.classList.add("pub-image");
     cell.append(img);
   }
 
@@ -122,9 +109,7 @@ function generateBriefTextFromWords(words, originalTitle = null) {
 
 function createContentCell({ title, authors, conference, links, badges }) {
   const cell = document.createElement("td");
-  cell.style.padding = "20px";
-  cell.style.width = "70%";
-  cell.style.verticalAlign = "middle";
+  cell.classList.add("pub-content-cell");
   const titleElem = document.createElement("span");
   titleElem.textContent = title;
   const authorsElem = createAuthorElement(authors);
