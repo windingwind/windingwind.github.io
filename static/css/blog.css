@@ -62,18 +62,6 @@ h6, .h6 {
   transition: color 0.3s ease;
 }
 
-
-/*
- * Override Bootstrap's default container.
- */
-
-@media (min-width: 1200px) {
-  .container {
-    width: 970px;
-  }
-}
-
-
 /*
  * Masthead for nav
  */
