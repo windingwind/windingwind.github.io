@@ -1,7 +1,7 @@
 // Convert PUBLICATIONS to HTML table
 document.addEventListener("DOMContentLoaded", (ev) => {
   const tbody = document.createElement("tbody");
-  const rows = PUBLICATIONS.map((data) => {
+  const rows = _PUB_CONFIG.publications.map((data) => {
     const row = document.createElement("tr");
     row.append(createImageCell(data.image, data.title), createContentCell(data));
     return row;
@@ -139,7 +139,7 @@ function createAuthorElement(authors) {
   const frag = document.createDocumentFragment();
   const elements = authors.split(/[,;]/g).map((author) => {
     const authorText = author.trim();
-    if (authorText.toLowerCase() === HIGHLIGHT_NAME) {
+    if (authorText.toLowerCase() === _PUB_CONFIG.highlightName.toLowerCase()) {
       const authorElem = document.createElement("b");
       authorElem.classList.add("author-name");
       authorElem.textContent = authorText;
