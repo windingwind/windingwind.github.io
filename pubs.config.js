@@ -8,7 +8,7 @@ const PUBLICATIONS = [
       "project page": "neuralpvs/index.html",
       arxiv: "https://arxiv.org/abs/2509.24677",
       pdf: "https://arxiv.org/pdf/2509.24677",
-      code: "",
+      code: "https://github.com/windingwind/neuralpvs",
       video: "neuralpvs/static/videos/supp.mp4",
       supp: "",
     },
