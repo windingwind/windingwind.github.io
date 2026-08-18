@@ -1,0 +1,512 @@
+/*
+ * Classical Bootstrap-3 "blog" look, reproduced without Bootstrap.
+ * Ported from the original static/css/blog.css + pubs.css.
+ */
+
+/*
+ * Theme Variables — CSS-only theming.
+ * Every token is defined once with light-dark(); the used scheme follows
+ * the system preference, and the #theme-switch checkbox flips it via
+ * :root:has(), with no JavaScript involved.
+ */
+
+:root {
+  color-scheme: light;
+  --bg-color: light-dark(#ffffff, #1a1a1a);
+  --text-color: light-dark(#555555, #e0e0e0);
+  --heading-color: light-dark(#333333, #ffffff);
+  --link-color: light-dark(#428bca, #4a90e2);
+  --link-hover-color: light-dark(#2a6496, #66a3e0);
+  --masthead-bg: light-dark(#428bca, #2c3e50);
+  --nav-text-color: light-dark(#cdddeb, #bdc3c7);
+  --nav-hover-color: #fff;
+  --nav-active-color: #fff;
+  --sidebar-bg: light-dark(#f5f5f5, #2d2d2d);
+  --footer-bg: light-dark(#f9f9f9, #1e1e1e);
+  --footer-border: light-dark(#e5e5e5, #404040);
+  --description-color: light-dark(#999999, #bbbbbb);
+  --meta-color: light-dark(#999999, #bbbbbb);
+  --footer-text-color: light-dark(#999999, #bbbbbb);
+  --hr-color: light-dark(#eeeeee, #404040);
+}
+
+/* The system preference picks the scheme… */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+/* …and the checked switch flips away from it */
+:root:has(#theme-switch:checked) {
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:has(#theme-switch:checked) {
+    color-scheme: light;
+  }
+}
+
+/*
+ * Base (minimal Bootstrap 3 subset)
+ */
+
+* ,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--heading-color);
+}
+
+h4 {
+  font-size: 18px;
+}
+
+p {
+  margin: 0 0 10px;
+}
+
+ul, ol {
+  margin-top: 0;
+  margin-bottom: 10px;
+  padding-left: 25px;
+}
+
+li {
+  margin: 0;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  vertical-align: middle;
+  border: 0;
+}
+
+hr {
+  height: 0;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid var(--hr-color);
+}
+
+.lead {
+  margin-bottom: 20px;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+
+/* Two-column layout (was col-sm-8 + col-sm-3 col-sm-offset-1) */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.blog-main {
+  width: 100%;
+}
+
+.blog-sidebar {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .blog-main {
+    width: 66.66666667%;
+  }
+
+  .blog-sidebar {
+    width: 25%;
+    margin-left: 8.33333333%;
+  }
+}
+
+/*
+ * Masthead for nav
+ */
+
+.blog-masthead {
+  background-color: var(--masthead-bg);
+  box-shadow: inset 0 -2px 5px rgba(0, 0, 0, .1);
+}
+
+.blog-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.nav-right {
+  margin-left: auto;
+}
+
+.blog-nav-item {
+  position: relative;
+  display: inline-block;
+  padding: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--nav-text-color);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.blog-nav-item:hover,
+.blog-nav-item:focus {
+  color: var(--nav-hover-color);
+  text-decoration: none;
+}
+
+/* Theme switcher (CSS-only): visually hidden checkbox + label */
+.theme-switch {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.theme-toggle {
+  border-radius: 4px;
+  user-select: none;
+}
+
+.theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.theme-switch:focus-visible + .theme-toggle {
+  outline: 2px solid var(--nav-hover-color);
+}
+
+/* Show the icon for the theme a click would switch to:
+   moon while light, sun while dark — mirroring the four
+   system-preference x switch states. */
+.theme-icon-sun {
+  display: none;
+}
+
+:root:has(#theme-switch:checked) .theme-icon-moon {
+  display: none;
+}
+
+:root:has(#theme-switch:checked) .theme-icon-sun {
+  display: inline;
+}
+
+@media (prefers-color-scheme: dark) {
+  .theme-icon-moon {
+    display: none;
+  }
+
+  .theme-icon-sun {
+    display: inline;
+  }
+
+  :root:has(#theme-switch:checked) .theme-icon-moon {
+    display: inline;
+  }
+
+  :root:has(#theme-switch:checked) .theme-icon-sun {
+    display: none;
+  }
+}
+
+/* Active state gets a caret at the bottom */
+.blog-nav .active {
+  color: var(--nav-active-color);
+}
+
+.blog-nav .active:after {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin-left: -5px;
+  vertical-align: middle;
+  content: " ";
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid;
+  border-left: 5px solid transparent;
+}
+
+/*
+ * Blog name and description
+ */
+
+.blog-header {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.blog-title {
+  margin-top: 30px;
+  margin-bottom: 0;
+  font-size: 60px;
+  font-weight: 400;
+}
+
+.blog-description {
+  font-size: 20px;
+  color: var(--description-color);
+}
+
+/*
+ * Main column and sidebar
+ */
+
+.blog-main {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.sidebar-module {
+  padding: 15px;
+  margin: 0 -15px 15px;
+}
+
+.sidebar-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-photo h4 {
+  width: 150px;
+  text-align: center;
+}
+
+.sidebar-module-inset {
+  padding: 15px;
+  background-color: var(--sidebar-bg);
+  border-radius: 4px;
+}
+
+.sidebar-module-inset h4 {
+  text-align: center;
+}
+
+.sidebar-module-inset p:last-child,
+.sidebar-module-inset ul:last-child,
+.sidebar-module-inset ol:last-child {
+  margin-bottom: 0;
+}
+
+/*
+ * Blog posts
+ */
+
+.blog-post {
+  margin-bottom: 60px;
+}
+
+.blog-post-title {
+  margin-bottom: 5px;
+  font-size: 40px;
+}
+
+.blog-post-meta {
+  margin-bottom: 20px;
+  color: var(--meta-color);
+}
+
+.markdown-body img {
+  vertical-align: middle;
+}
+
+/*
+ * Publications
+ */
+
+.pub-items {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Top-aligned so the image stays put (aligned with the title)
+   when the abstract is expanded */
+.pub-item {
+  display: flex;
+  align-items: flex-start;
+}
+
+.pub-image-cell {
+  width: 30%;
+  padding: 20px 10px 10px;
+  flex-shrink: 0;
+}
+
+.pub-content-cell {
+  width: 70%;
+  padding: 20px;
+}
+
+.pub-content-cell p {
+  margin: 0;
+}
+
+.pub-image {
+  width: 100%;
+  border-radius: 6px;
+  box-shadow: 0 0 2px 2px light-dark(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.25));
+}
+
+.pub-placeholder {
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: light-dark(#f0f0f0, #3a3a3a);
+  border: 2px solid light-dark(#dddddd, #555555);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: light-dark(#666666, #cccccc);
+  text-align: center;
+}
+
+.author-name {
+  font-size: 0.8em;
+}
+
+.pub-venue {
+  font-size: 0.8em;
+}
+
+.resource-link {
+  font-size: 0.8em;
+  margin-right: 0.8em;
+  white-space: nowrap;
+}
+
+span.badge {
+  font-size: 13px;
+  background-color: light-dark(#cd3f3f, #e74c3c);
+  color: #ffffff;
+  font-weight: 600;
+  font-style: normal;
+  margin-left: 1em;
+  padding: 0.05em 0.4em;
+  border-radius: 10rem;
+}
+
+.pub-abstract {
+  margin-top: 4px;
+  font-size: 0.8em;
+}
+
+.pub-abstract summary {
+  cursor: pointer;
+  color: var(--meta-color);
+}
+
+.pub-abstract-body {
+  margin-top: 4px;
+  padding-left: 12px;
+  border-left: 3px solid var(--hr-color);
+  color: var(--meta-color);
+}
+
+.pub-abstract-body p {
+  margin: 0 0 8px;
+}
+
+/*
+ * Footer
+ */
+
+.blog-footer {
+  padding: 40px 0;
+  color: var(--footer-text-color);
+  text-align: center;
+  background-color: var(--footer-bg);
+  border-top: 1px solid var(--footer-border);
+}
+
+.blog-footer p:last-child {
+  margin-bottom: 0;
+}
+
+/* Smooth transitions for theme switching */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}

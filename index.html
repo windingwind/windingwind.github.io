@@ -1,27 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  <!--  <link rel="icon" href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.3/favicon.ico"> -->
-  <link rel="canonical" href="https://getbootstrap.com/docs/3.4/examples/blog/" />
-
+  <meta name="description" content="Xiangyu Wang — PhD student at VISUS, University of Stuttgart. Research on 3D reconstruction, real-time rendering, and neural graphics." />
+  <meta name="author" content="Xiangyu Wang" />
   <title>Xiangyu Wang</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="static/css/bootstrap.min.css" rel="stylesheet" />
-
-  <!-- Custom styles for this template -->
-  <link href="static/css/blog.css" rel="stylesheet" />
-
-  <link rel="stylesheet" type="text/css" href="static/css/pubs.css" />
-  <script src="pubs.config.js"></script>
-  <script src="static/js/pubs.js"></script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐦‍⬛</text></svg>" />
+  <script type="module" src="/src/main.js"></script>
   <script defer data-domain="windingwind.github.io" src="https://plausible.io/js/script.js"></script>
 </head>
 
@@ -30,14 +17,17 @@
     <div class="container">
       <nav class="blog-nav">
         <div class="nav-left">
-          <a class="blog-nav-item active" href="">Home</a>
+          <a class="blog-nav-item active" href="/">Home</a>
           <a class="blog-nav-item" href="https://github.com/windingwind">GitHub</a>
           <a class="blog-nav-item" href="https://scholar.google.com/citations?user=74_PEUIAAAAJ">Google Scholar</a>
         </div>
         <div class="nav-right">
-          <button id="theme-toggle" class="blog-nav-item theme-toggle" title="Toggle theme">
-            <span class="theme-icon">🌙</span>
-          </button>
+          <!-- CSS-only theme switcher: :root:has(#theme-switch:checked) flips color-scheme -->
+          <input type="checkbox" id="theme-switch" class="theme-switch" aria-label="Toggle theme" />
+          <label for="theme-switch" class="blog-nav-item theme-toggle" title="Toggle theme">
+            <span class="theme-icon theme-icon-moon">🌙</span>
+            <span class="theme-icon theme-icon-sun">☀️</span>
+          </label>
         </div>
       </nav>
     </div>
@@ -50,99 +40,31 @@
     </div>
 
     <div class="row">
-      <div class="col-sm-8 blog-main">
+      <main class="blog-main">
         <div class="blog-post">
           <h2 class="blog-post-title">About Me</h2>
-          <p class="blog-post-meta">01/10/2025</p>
-
+          <p class="blog-post-meta">{{ABOUT_DATE}}</p>
           <hr />
-          <p><b>Research Interests</b>: 3D Reconstruction</p>
-
-          <p>
-            <b>Organization</b>: VISUS, Univerität Stuttgart
-          </p>
-
-          <p>
-            <b>Email</b>:
-            <a href="mailto:xiangyu.wang@visus.uni-stuttgart.de">xiangyu.wang@visus.uni-stuttgart.de</a>
-          </p>
-
-          <p><b>Education</b>:</p>
-          <ul>
-            <li>
-              <i>Dec. 2024-Now</i> PhD student at VISUS, Univerität Stuttgart, Germany, research with Prof. Dr.
-              <a href="https://www.vis.uni-stuttgart.de/team/Schmalstieg/">Dieter Schmalstieg</a>
-            </li>
-            <li>
-              <i>Sep. 2021-Mar. 2024</i> Research master at College of Control
-              Science and Engineering, Zhejiang University, research with Prof. Dr.
-              <a href="https://person.zju.edu.cn/en/yeqi">Qi Ye</a> and Prof. Dr.
-              <a href="https://person.zju.edu.cn/en/jmchen">Jiming Chen</a>
-            </li>
-            <li>
-              <i>Sep. 2017-Jun. 2021</i> Bachelor at College of Control
-              Science and Engineering, Zhejiang University; Chu Kochen Honors
-              College
-            </li>
-          </ul>
-
-          <p>
-            <b>Also known as</b>:
-            <a href="https://zotero.org/">Zotero</a> developer, active
-            open-source contributor
-            <a href="https://github.com/windingwind">windingwind</a>.
-            <img alt="GitHub User's stars" src="https://img.shields.io/github/stars/windingwind" />
-          </p>
+          <div class="markdown-body" id="about-content"><!-- rendered from content/about.md --></div>
         </div>
         <!-- /.blog-post -->
 
         <div class="blog-post">
           <h2 class="blog-post-title">Publications</h2>
-          <p class="blog-post-meta">29/09/2023</p>
-
-          <table id="pub-list" style="
-                width: 100%;
-                border: 0px;
-                border-spacing: 0px;
-                border-collapse: separate;
-                margin-right: auto;
-                margin-left: auto;
-              "></table>
+          <p class="blog-post-meta">{{PUBS_DATE}}</p>
+          <div id="pub-list"><!-- rendered from pubs.config.js --></div>
         </div>
-
-        <!-- <nav>
-            <ul class="pager">
-              <li><a href="">Previous</a></li>
-              <li><a href="">Next</a></li>
-            </ul>
-          </nav> -->
-      </div>
+        <!-- /.blog-post -->
+      </main>
       <!-- /.blog-main -->
 
-      <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-        <div class="sidebar-module" style="display: flex; flex-direction: column; align-items: center">
-          <h4 style="width: 150px; text-align: center">🐦‍⬛</h4>
-          <img src="static/me.png" alt="me" style="width: 150px" />
+      <aside class="blog-sidebar">
+        <div class="sidebar-module sidebar-photo">
+          <h4>🐦‍⬛</h4>
+          <img src="/static/me.png" alt="me" width="150" />
         </div>
-        <!-- <div
-            class="sidebar-module sidebar-module-inset"
-            style="display: flex; flex-direction: column; align-items: center"
-          >
-            <h4>
-              <a
-                style="width: 150px; text-align: center"
-                href="https://drive.google.com/file/d/1Yuv6RWZwYqMsBZ4yemdOEZk_U3qccsYL/view?usp=sharing"
-                >CV</a
-              >
-            </h4>
-            <img
-              src="static/cv.png"
-              alt="qr"
-              style="width: 150px; margin-bottom: 10px"
-            />
-          </div> -->
         <div class="sidebar-module sidebar-module-inset">
-          <h4 style="text-align: center">Elsewhere</h4>
+          <h4>Elsewhere</h4>
           <ol class="list-unstyled">
             <li><a href="https://github.com/windingwind">GitHub</a></li>
             <li>
@@ -150,7 +72,7 @@
             </li>
           </ol>
         </div>
-      </div>
+      </aside>
       <!-- /.blog-sidebar -->
     </div>
     <!-- /.row -->
@@ -164,55 +86,6 @@
       <a href="https://twitter.com/mdo">@mdo</a>.
     </p>
   </footer>
-
-  <!-- Bootstrap core JavaScript
-    ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
-  <script src="static/js/jquery.min.js"
-    integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
-    crossorigin="anonymous"></script>
-  <script>
-    // Theme switching functionality
-    (function () {
-      const html = document.documentElement;
-
-      // Prevent initial transition flash
-      html.classList.add('no-transition');
-
-      const themeToggle = document.getElementById('theme-toggle');
-      const themeIcon = document.querySelector('.theme-icon');
-
-      // Get saved theme or default to browser's preference
-      const getDefaultTheme = () => {
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          return 'dark';
-        }
-        return 'light';
-      };
-
-      const savedTheme = localStorage.getItem('theme') || getDefaultTheme();
-      html.setAttribute('data-theme', savedTheme);
-      updateThemeIcon(savedTheme);
-
-      // Re-enable transitions after a brief delay
-      setTimeout(() => {
-        html.classList.remove('no-transition');
-      }, 100);
-
-      themeToggle.addEventListener('click', function () {
-        const currentTheme = html.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-        html.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        updateThemeIcon(newTheme);
-      });
-
-      function updateThemeIcon(theme) {
-        themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
-      }
-    })();
-  </script>
 </body>
 
 </html>

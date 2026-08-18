@@ -6,6 +6,7 @@ const PUBLICATIONS = [
     conference: "ACM SIGGRAPH Asia 2025",
     links: {
       "project page": "neuralpvs/index.html",
+      paper: "https://dl.acm.org/doi/10.1145/3757377.3763822",
       arxiv: "https://arxiv.org/abs/2509.24677",
       pdf: "https://arxiv.org/pdf/2509.24677",
       "code (training)": "https://github.com/windingwind/neuralpvs",
@@ -110,7 +111,7 @@ const PUBLICATIONS = [
 
 const HIGHLIGHT_NAME = "xiangyu wang";
 
-window._PUB_CONFIG = {
+export default {
   highlightName: HIGHLIGHT_NAME,
   publications: PUBLICATIONS,
 };

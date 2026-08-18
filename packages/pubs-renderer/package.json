@@ -1,0 +1,11 @@
+{
+  "name": "@windingwind/pubs-renderer",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Renders the publication list from a config object (author highlighting, monogram placeholders, markdown abstracts).",
+  "type": "module",
+  "main": "index.js",
+  "dependencies": {
+    "marked": "^16.4.1"
+  }
+}
