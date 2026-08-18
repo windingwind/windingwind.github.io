@@ -1,41 +1,32 @@
 import { marked } from "marked";
 
-/** Renders the publication list from pubs.config.js into `container`. */
-export function renderPublications(config, container) {
-  const list = document.createElement("ul");
-  list.classList.add("pub-items");
-  list.append(...config.publications.map((pub) => createPubItem(pub, config)));
-  container.append(list);
+function escapeHtml(text) {
+  return String(text)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
 }
 
-function createPubItem(pub, config) {
-  const item = document.createElement("li");
-  item.classList.add("pub-item");
-  item.append(createImageCell(pub.image, pub.title), createContentCell(pub, config));
-  return item;
+/** Renders the publication list from pubs.config.js to an HTML string. */
+export function renderPublicationsHtml(config) {
+  const items = config.publications
+    .map(
+      (pub) => `<li class="pub-item">
+${renderImageCell(pub.image, pub.title)}
+${renderContentCell(pub, config)}
+</li>`,
+    )
+    .join("\n");
+  return `<ul class="pub-items">\n${items}\n</ul>`;
 }
 
-function createImageCell(link, title) {
-  const cell = document.createElement("div");
-  cell.classList.add("pub-image-cell");
-
+function renderImageCell(link, title) {
   if (!link || link.trim() === "") {
     // Text monogram placeholder when there is no image
-    const placeholder = document.createElement("div");
-    placeholder.classList.add("pub-placeholder");
-    placeholder.textContent = generateBriefText(title);
-    placeholder.title = title;
-    cell.append(placeholder);
-  } else {
-    const img = document.createElement("img");
-    img.src = link;
-    img.alt = title;
-    img.loading = "lazy";
-    img.classList.add("pub-image");
-    cell.append(img);
+    return `<div class="pub-image-cell"><div class="pub-placeholder" title="${escapeHtml(title)}">${escapeHtml(generateBriefText(title))}</div></div>`;
   }
-
-  return cell;
+  return `<div class="pub-image-cell"><img class="pub-image" src="${escapeHtml(link)}" alt="${escapeHtml(title)}" loading="lazy" /></div>`;
 }
 
 function generateBriefText(title) {
@@ -70,7 +61,35 @@ function generateBriefText(title) {
   }
 
   // Default logic for other cases
-  const commonWords = ["the", "a", "an", "and", "or", "but", "in", "on", "at", "to", "for", "of", "with", "by", "from", "up", "about", "into", "through", "during", "before", "after", "above", "below", "between", "among", "against"];
+  const commonWords = [
+    "the",
+    "a",
+    "an",
+    "and",
+    "or",
+    "but",
+    "in",
+    "on",
+    "at",
+    "to",
+    "for",
+    "of",
+    "with",
+    "by",
+    "from",
+    "up",
+    "about",
+    "into",
+    "through",
+    "during",
+    "before",
+    "after",
+    "above",
+    "below",
+    "between",
+    "among",
+    "against",
+  ];
   const words = title
     .toLowerCase()
     .replace(/[^\w\s]/g, " ")
@@ -108,87 +127,50 @@ function generateBriefTextFromWords(words, originalTitle = null) {
   return words.length > 0 ? words[0].charAt(0).toUpperCase() : "?";
 }
 
-function createContentCell({ title, authors, conference, links, badges, comments }, config) {
-  const cell = document.createElement("div");
-  cell.classList.add("pub-content-cell");
-
-  const titleElem = document.createElement("p");
-  titleElem.classList.add("pub-title");
-  titleElem.textContent = title;
-
-  const metaElems = [
-    titleElem,
-    createAuthorElement(authors, config),
-    createConferenceElement(conference, badges),
-    createLinksElement(links),
-    createAbstractElement(comments),
+function renderContentCell({ title, authors, conference, links, badges, comments }, config) {
+  const parts = [
+    `<p class="pub-title">${escapeHtml(title)}</p>`,
+    renderAuthors(authors, config),
+    renderVenue(conference, badges),
+    renderLinks(links),
+    renderAbstract(comments),
   ].filter(Boolean);
-  cell.append(...metaElems);
-  return cell;
+  return `<div class="pub-content-cell">${parts.join("\n")}</div>`;
 }
 
-function createAuthorElement(authors, config) {
-  if (!authors) return null;
-  const container = document.createElement("p");
-  container.classList.add("pub-authors");
+function renderAuthors(authors, config) {
+  if (!authors) return "";
   const names = authors.split(/[,;]/g).map((author) => {
-    const authorText = author.trim();
-    const isMe = authorText.toLowerCase() === config.highlightName.toLowerCase();
-    const authorElem = document.createElement(isMe ? "b" : "span");
-    authorElem.classList.add("author-name");
-    authorElem.textContent = authorText;
-    return authorElem;
+    const name = author.trim();
+    const isMe = name.toLowerCase() === config.highlightName.toLowerCase();
+    const tag = isMe ? "b" : "span";
+    return `<${tag} class="author-name">${escapeHtml(name)}</${tag}>`;
   });
-  names.forEach((elem, i) => {
-    container.append(elem);
-    if (i !== names.length - 1) container.append(", ");
-  });
-  return container;
+  return `<p class="pub-authors">${names.join(", ")}</p>`;
 }
 
-function createConferenceElement(conference, badges) {
-  if (!conference && (!badges || badges.length === 0)) return null;
-  const container = document.createElement("p");
-  container.classList.add("pub-venue");
-  if (conference) {
-    const conferenceElem = document.createElement("em");
-    conferenceElem.classList.add("conference-name");
-    conferenceElem.textContent = conference;
-    container.append(conferenceElem);
-  }
-  for (const badge of badges || []) {
-    const badgeElem = document.createElement("span");
-    badgeElem.classList.add("badge");
-    badgeElem.textContent = badge;
-    container.append(badgeElem);
-  }
-  return container;
+function renderVenue(conference, badges) {
+  if (!conference && (!badges || badges.length === 0)) return "";
+  const conf = conference ? `<em class="conference-name">${escapeHtml(conference)}</em>` : "";
+  const badgeHtml = (badges || [])
+    .map((badge) => `<span class="badge">${escapeHtml(badge)}</span>`)
+    .join("");
+  return `<p class="pub-venue">${conf}${badgeHtml}</p>`;
 }
 
-function createLinksElement(links) {
-  if (!links) return null;
-  const container = document.createElement("p");
-  container.classList.add("pub-links");
-  for (const [name, link] of Object.entries(links)) {
-    if (!link) continue;
-    const elem = document.createElement("a");
-    elem.href = link;
-    elem.classList.add("resource-link");
-    elem.textContent = `[${name}]`;
-    container.append(elem, " ");
-  }
-  return container.childElementCount > 0 ? container : null;
+function renderLinks(links) {
+  if (!links) return "";
+  const parts = Object.entries(links)
+    .filter(([, link]) => link)
+    .map(
+      ([name, link]) =>
+        `<a class="resource-link" href="${escapeHtml(link)}">[${escapeHtml(name)}]</a>`,
+    );
+  return parts.length ? `<p class="pub-links">${parts.join(" ")}</p>` : "";
 }
 
-function createAbstractElement(comments) {
-  if (!comments || comments.trim() === "") return null;
-  const details = document.createElement("details");
-  details.classList.add("pub-abstract");
-  const summary = document.createElement("summary");
-  summary.textContent = "Abstract";
-  const body = document.createElement("div");
-  body.classList.add("pub-abstract-body");
-  body.innerHTML = marked.parse(comments, { breaks: true });
-  details.append(summary, body);
-  return details;
+function renderAbstract(comments) {
+  if (!comments || comments.trim() === "") return "";
+  const body = marked.parse(comments, { breaks: true });
+  return `<details class="pub-abstract"><summary>Abstract</summary><div class="pub-abstract-body">${body}</div></details>`;
 }

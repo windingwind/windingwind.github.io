@@ -1,0 +1,7 @@
+{
+  "extends": "stylelint-config-standard",
+  "ignoreFiles": ["dist/**", "public/**", "node_modules/**"],
+  "rules": {
+    "no-descending-specificity": null
+  }
+}

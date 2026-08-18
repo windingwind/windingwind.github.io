@@ -1,91 +1,123 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Xiangyu Wang — PhD student at VISUS, University of Stuttgart. Research on 3D reconstruction, real-time rendering, and neural graphics."
+    />
+    <meta name="author" content="Xiangyu Wang" />
+    <title>Xiangyu Wang</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐦‍⬛</text></svg>"
+    />
+    <script>
+      // Restore a flipped theme before first paint to avoid a flash;
+      // CSS honors [data-theme-flipped] the same as the checked switch.
+      if (localStorage.getItem("theme-flipped") === "1") {
+        document.documentElement.setAttribute("data-theme-flipped", "");
+      }
+    </script>
+    <script type="module" src="/src/main.js"></script>
+    <script
+      defer
+      data-domain="windingwind.github.io"
+      src="https://plausible.io/js/script.js"
+    ></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Xiangyu Wang — PhD student at VISUS, University of Stuttgart. Research on 3D reconstruction, real-time rendering, and neural graphics." />
-  <meta name="author" content="Xiangyu Wang" />
-  <title>Xiangyu Wang</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐦‍⬛</text></svg>" />
-  <script type="module" src="/src/main.js"></script>
-  <script defer data-domain="windingwind.github.io" src="https://plausible.io/js/script.js"></script>
-</head>
+  <body>
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <div class="nav-left">
+            <a class="blog-nav-item active" data-section="home" href="/">Home</a>
+            <a class="blog-nav-item" data-section="publications" href="/#publications"
+              >Publications</a
+            >
+            <a class="blog-nav-item" data-section="blog" href="/#blog">Blog</a>
+            <a class="blog-nav-item blog-nav-item-external" href="https://github.com/windingwind"
+              >GitHub</a
+            >
+            <a
+              class="blog-nav-item blog-nav-item-external"
+              href="https://scholar.google.com/citations?user=74_PEUIAAAAJ"
+              >Google Scholar</a
+            >
+          </div>
+          <div class="nav-right">
+            <!-- CSS-only theme switcher: :root:has(#theme-switch:checked) flips color-scheme -->
+            <input
+              type="checkbox"
+              id="theme-switch"
+              class="theme-switch"
+              aria-label="Toggle theme"
+            />
+            <label for="theme-switch" class="blog-nav-item theme-toggle" title="Toggle theme">
+              <span class="theme-icon theme-icon-moon">🌙</span>
+              <span class="theme-icon theme-icon-sun">☀️</span>
+            </label>
+          </div>
+        </nav>
+      </div>
+    </div>
 
-<body>
-  <div class="blog-masthead">
     <div class="container">
-      <nav class="blog-nav">
-        <div class="nav-left">
-          <a class="blog-nav-item active" href="/">Home</a>
-          <a class="blog-nav-item" href="https://github.com/windingwind">GitHub</a>
-          <a class="blog-nav-item" href="https://scholar.google.com/citations?user=74_PEUIAAAAJ">Google Scholar</a>
-        </div>
-        <div class="nav-right">
-          <!-- CSS-only theme switcher: :root:has(#theme-switch:checked) flips color-scheme -->
-          <input type="checkbox" id="theme-switch" class="theme-switch" aria-label="Toggle theme" />
-          <label for="theme-switch" class="blog-nav-item theme-toggle" title="Toggle theme">
-            <span class="theme-icon theme-icon-moon">🌙</span>
-            <span class="theme-icon theme-icon-sun">☀️</span>
-          </label>
-        </div>
-      </nav>
+      <div class="blog-header">
+        <h1 class="blog-title">Xiangyu Wang</h1>
+        <p class="lead blog-description">Keep enthusiasm and curious</p>
+      </div>
+
+      <div class="row">
+        <main class="blog-main">
+          <div class="blog-post">
+            <h2 class="blog-post-title">About Me</h2>
+            <p class="blog-post-meta">{{ABOUT_DATE}}</p>
+            <hr />
+            <div class="markdown-body" id="about-content"><!--ABOUT_CONTENT--></div>
+          </div>
+          <!-- /.blog-post -->
+
+          <div class="blog-post" id="publications">
+            <h2 class="blog-post-title">Publications</h2>
+            <p class="blog-post-meta">{{PUBS_DATE}}</p>
+            <div id="pub-list"><!--PUB_LIST--></div>
+          </div>
+          <!-- /.blog-post -->
+
+          <!--BLOG_SECTION-->
+        </main>
+        <!-- /.blog-main -->
+
+        <aside class="blog-sidebar">
+          <div class="sidebar-module sidebar-photo">
+            <h4>🐦‍⬛</h4>
+            <img src="/static/me.png" alt="me" width="150" />
+          </div>
+          <div class="sidebar-module sidebar-module-inset">
+            <h4>Elsewhere</h4>
+            <ol class="list-unstyled">
+              <li><a href="https://github.com/windingwind">GitHub</a></li>
+              <li>
+                <a href="https://scholar.google.com/citations?user=74_PEUIAAAAJ">Google Scholar</a>
+              </li>
+            </ol>
+          </div>
+        </aside>
+        <!-- /.blog-sidebar -->
+      </div>
+      <!-- /.row -->
     </div>
-  </div>
+    <!-- /.container -->
 
-  <div class="container">
-    <div class="blog-header">
-      <h1 class="blog-title">Xiangyu Wang</h1>
-      <p class="lead blog-description">Keep enthusiasm and curious</p>
-    </div>
-
-    <div class="row">
-      <main class="blog-main">
-        <div class="blog-post">
-          <h2 class="blog-post-title">About Me</h2>
-          <p class="blog-post-meta">{{ABOUT_DATE}}</p>
-          <hr />
-          <div class="markdown-body" id="about-content"><!-- rendered from content/about.md --></div>
-        </div>
-        <!-- /.blog-post -->
-
-        <div class="blog-post">
-          <h2 class="blog-post-title">Publications</h2>
-          <p class="blog-post-meta">{{PUBS_DATE}}</p>
-          <div id="pub-list"><!-- rendered from pubs.config.js --></div>
-        </div>
-        <!-- /.blog-post -->
-      </main>
-      <!-- /.blog-main -->
-
-      <aside class="blog-sidebar">
-        <div class="sidebar-module sidebar-photo">
-          <h4>🐦‍⬛</h4>
-          <img src="/static/me.png" alt="me" width="150" />
-        </div>
-        <div class="sidebar-module sidebar-module-inset">
-          <h4>Elsewhere</h4>
-          <ol class="list-unstyled">
-            <li><a href="https://github.com/windingwind">GitHub</a></li>
-            <li>
-              <a href="https://scholar.google.com/citations?user=74_PEUIAAAAJ">Google Scholar</a>
-            </li>
-          </ol>
-        </div>
-      </aside>
-      <!-- /.blog-sidebar -->
-    </div>
-    <!-- /.row -->
-  </div>
-  <!-- /.container -->
-
-  <footer class="blog-footer">
-    <p>
-      Blog template built for
-      <a href="https://getbootstrap.com/">Bootstrap</a> by
-      <a href="https://twitter.com/mdo">@mdo</a>.
-    </p>
-  </footer>
-</body>
-
+    <footer class="blog-footer">
+      <p>
+        Blog template built for
+        <a href="https://getbootstrap.com/">Bootstrap</a> by
+        <a href="https://twitter.com/mdo">@mdo</a>.
+      </p>
+    </footer>
+  </body>
 </html>

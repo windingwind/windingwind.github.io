@@ -1,44 +1,29 @@
-import { execSync } from "node:child_process";
-import { statSync } from "node:fs";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 import { defineConfig } from "vite";
 import { marked } from "marked";
+import { renderPublicationsHtml } from "@windingwind/pubs-renderer";
+import { blogPlugin } from "./scripts/blog.js";
+import { formatDate, lastModified } from "./scripts/utils.js";
 
 /**
- * Transforms `.md` imports into JS modules exporting the rendered HTML
- * string, so markdown is compiled at build time and ships as plain HTML.
+ * Renders the About markdown and the publication list into index.html at
+ * build time, so the homepage ships fully rendered — no runtime layout work.
  */
-function markdownPlugin() {
+function staticContentPlugin() {
   return {
-    name: "markdown-to-html",
-    transform(src, id) {
-      if (!id.endsWith(".md")) return;
-      const html = marked.parse(src);
-      return { code: `export default ${JSON.stringify(html)};`, map: null };
+    name: "static-content",
+    async transformIndexHtml(html) {
+      const aboutHtml = marked.parse(readFileSync("content/about.md", "utf8"));
+      // Cache-busting query so edits are picked up per request in dev
+      const configUrl = `${pathToFileURL(resolve("pubs.config.js")).href}?t=${Date.now()}`;
+      const { default: pubConfig } = await import(configUrl);
+      return html
+        .replace("<!--ABOUT_CONTENT-->", aboutHtml)
+        .replace("<!--PUB_LIST-->", renderPublicationsHtml(pubConfig));
     },
   };
-}
-
-/**
- * Last-modified date of a source file: the last git commit that touched it,
- * or the filesystem mtime while it has uncommitted changes.
- */
-function lastModified(file) {
-  try {
-    const dirty = execSync(`git status --porcelain -- "${file}"`).toString().trim();
-    if (!dirty) {
-      const iso = execSync(`git log -1 --format=%cI -- "${file}"`).toString().trim();
-      if (iso) return new Date(iso);
-    }
-  } catch {
-    // not a git checkout — fall through to mtime
-  }
-  return statSync(file).mtime;
-}
-
-function formatDate(date) {
-  const dd = String(date.getDate()).padStart(2, "0");
-  const mm = String(date.getMonth() + 1).padStart(2, "0");
-  return `${dd}/${mm}/${date.getFullYear()}`;
 }
 
 /**
@@ -57,5 +42,5 @@ function sectionDatesPlugin() {
 }
 
 export default defineConfig({
-  plugins: [markdownPlugin(), sectionDatesPlugin()],
+  plugins: [staticContentPlugin(), sectionDatesPlugin(), blogPlugin()],
 });

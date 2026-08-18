@@ -12,9 +12,10 @@
 
 :root {
   color-scheme: light;
-  --bg-color: light-dark(#ffffff, #1a1a1a);
-  --text-color: light-dark(#555555, #e0e0e0);
-  --heading-color: light-dark(#333333, #ffffff);
+
+  --bg-color: light-dark(#fff, #1a1a1a);
+  --text-color: light-dark(#555, #e0e0e0);
+  --heading-color: light-dark(#333, #fff);
   --link-color: light-dark(#428bca, #4a90e2);
   --link-hover-color: light-dark(#2a6496, #66a3e0);
   --masthead-bg: light-dark(#428bca, #2c3e50);
@@ -24,10 +25,10 @@
   --sidebar-bg: light-dark(#f5f5f5, #2d2d2d);
   --footer-bg: light-dark(#f9f9f9, #1e1e1e);
   --footer-border: light-dark(#e5e5e5, #404040);
-  --description-color: light-dark(#999999, #bbbbbb);
-  --meta-color: light-dark(#999999, #bbbbbb);
-  --footer-text-color: light-dark(#999999, #bbbbbb);
-  --hr-color: light-dark(#eeeeee, #404040);
+  --description-color: light-dark(#999, #bbb);
+  --meta-color: light-dark(#999, #bbb);
+  --footer-text-color: light-dark(#999, #bbb);
+  --hr-color: light-dark(#eee, #404040);
 }
 
 /* The system preference picks the scheme… */
@@ -37,12 +38,15 @@
   }
 }
 
-/* …and the checked switch flips away from it */
+/* …and the checked switch flips away from it. [data-theme-flipped] is the
+   same state restored from localStorage before first paint (see index.html). */
+:root[data-theme-flipped],
 :root:has(#theme-switch:checked) {
   color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
+  :root[data-theme-flipped],
   :root:has(#theme-switch:checked) {
     color-scheme: light;
   }
@@ -52,7 +56,7 @@
  * Base (minimal Bootstrap 3 subset)
  */
 
-* ,
+*,
 *::before,
 *::after {
   box-sizing: border-box;
@@ -67,12 +71,17 @@ body {
   margin: 0;
   font-family: Georgia, "Times New Roman", Times, serif;
   font-size: 14px;
-  line-height: 1.42857143;
+  line-height: 1.4286;
   color: var(--text-color);
   background-color: var(--bg-color);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-top: 0;
   margin-bottom: 10px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -89,7 +98,8 @@ p {
   margin: 0 0 10px;
 }
 
-ul, ol {
+ul,
+ol {
   margin-top: 0;
   margin-bottom: 10px;
   padding-left: 25px;
@@ -142,19 +152,19 @@ hr {
   margin-left: auto;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .container {
     width: 750px;
   }
 }
 
-@media (min-width: 992px) {
+@media (width >= 992px) {
   .container {
     width: 970px;
   }
 }
 
-@media (min-width: 1200px) {
+@media (width >= 1200px) {
   .container {
     width: 1170px;
   }
@@ -168,20 +178,22 @@ hr {
 
 .blog-main {
   width: 100%;
+  font-size: 18px;
+  line-height: 1.5;
 }
 
 .blog-sidebar {
   width: 100%;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .blog-main {
-    width: 66.66666667%;
+    width: 66.6667%;
   }
 
   .blog-sidebar {
     width: 25%;
-    margin-left: 8.33333333%;
+    margin-left: 8.3333%;
   }
 }
 
@@ -190,8 +202,16 @@ hr {
  */
 
 .blog-masthead {
+  position: sticky;
+  top: 0;
+  z-index: 50;
   background-color: var(--masthead-bg);
-  box-shadow: inset 0 -2px 5px rgba(0, 0, 0, .1);
+  box-shadow: inset 0 -2px 5px rgb(0 0 0 / 10%);
+}
+
+/* Keep anchor targets clear of the sticky masthead */
+[id] {
+  scroll-margin-top: 55px;
 }
 
 .blog-nav {
@@ -230,6 +250,14 @@ hr {
   text-decoration: none;
 }
 
+/* External-link marker */
+.blog-nav-item-external::after {
+  content: " \2197";
+  font-size: 0.75em;
+  vertical-align: text-top;
+  opacity: 0.85;
+}
+
 /* Theme switcher (CSS-only): visually hidden checkbox + label */
 .theme-switch {
   position: absolute;
@@ -247,7 +275,7 @@ hr {
 }
 
 .theme-toggle:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgb(255 255 255 / 10%);
 }
 
 .theme-switch:focus-visible + .theme-toggle {
@@ -261,10 +289,12 @@ hr {
   display: none;
 }
 
+:root[data-theme-flipped] .theme-icon-moon,
 :root:has(#theme-switch:checked) .theme-icon-moon {
   display: none;
 }
 
+:root[data-theme-flipped] .theme-icon-sun,
 :root:has(#theme-switch:checked) .theme-icon-sun {
   display: inline;
 }
@@ -278,10 +308,12 @@ hr {
     display: inline;
   }
 
+  :root[data-theme-flipped] .theme-icon-moon,
   :root:has(#theme-switch:checked) .theme-icon-moon {
     display: inline;
   }
 
+  :root[data-theme-flipped] .theme-icon-sun,
   :root:has(#theme-switch:checked) .theme-icon-sun {
     display: none;
   }
@@ -292,7 +324,7 @@ hr {
   color: var(--nav-active-color);
 }
 
-.blog-nav .active:after {
+.blog-nav .active::after {
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -328,13 +360,8 @@ hr {
 }
 
 /*
- * Main column and sidebar
+ * Sidebar
  */
-
-.blog-main {
-  font-size: 18px;
-  line-height: 1.5;
-}
 
 .sidebar-module {
   padding: 15px;
@@ -386,6 +413,24 @@ hr {
   color: var(--meta-color);
 }
 
+/* Blog previews (homepage section and /blog/ archive) */
+.post-preview {
+  margin-bottom: 30px;
+}
+
+.post-preview-title {
+  margin-bottom: 5px;
+  font-size: 24px;
+}
+
+.post-preview .blog-post-meta {
+  margin-bottom: 8px;
+}
+
+.post-back-link {
+  margin-top: 30px;
+}
+
 .markdown-body img {
   vertical-align: middle;
 }
@@ -426,21 +471,21 @@ hr {
 .pub-image {
   width: 100%;
   border-radius: 6px;
-  box-shadow: 0 0 2px 2px light-dark(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.25));
+  box-shadow: 0 0 2px 2px light-dark(rgb(0 0 0 / 15%), rgb(255 255 255 / 25%));
 }
 
 .pub-placeholder {
   width: 100%;
   aspect-ratio: 1;
   background-color: light-dark(#f0f0f0, #3a3a3a);
-  border: 2px solid light-dark(#dddddd, #555555);
+  border: 2px solid light-dark(#ddd, #555);
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 24px;
   font-weight: bold;
-  color: light-dark(#666666, #cccccc);
+  color: light-dark(#666, #ccc);
   text-align: center;
 }
 
@@ -461,7 +506,7 @@ hr {
 span.badge {
   font-size: 13px;
   background-color: light-dark(#cd3f3f, #e74c3c);
-  color: #ffffff;
+  color: #fff;
   font-weight: 600;
   font-style: normal;
   margin-left: 1em;
@@ -508,5 +553,8 @@ span.badge {
 
 /* Smooth transitions for theme switching */
 * {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
 }
