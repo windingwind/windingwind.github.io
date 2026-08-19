@@ -1,6 +1,4 @@
-**Research Interests**: 3D Reconstruction
-
-**Organization**: VISUS, Universität Stuttgart
+**Research Interests**: 3D understanding; Neural network in Graphics
 
 **Email**: [xiangyu.wang@visus.uni-stuttgart.de](mailto:xiangyu.wang@visus.uni-stuttgart.de)
 
