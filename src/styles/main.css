@@ -250,12 +250,43 @@ hr {
   text-decoration: none;
 }
 
-/* External-link marker */
+/* External-link marker: SVG arrow via mask so it follows the link color
+   (U+2197 text arrows render as emoji on mobile) */
 .blog-nav-item-external::after {
-  content: " \2197";
-  font-size: 0.75em;
-  vertical-align: text-top;
+  content: "";
+  display: inline-block;
+  width: 0.6em;
+  height: 0.6em;
+  margin-left: 0.35em;
+  background-color: currentcolor;
   opacity: 0.85;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 2H14v10.5h-2V5.41L4.41 13 3 11.59 10.59 4H3.5z'/%3E%3C/svg%3E")
+    no-repeat center / contain;
+}
+
+/* Brand icons for the external links: hidden on wide screens (text labels
+   there), shown in place of the labels on narrow screens where the full
+   text would wrap the nav onto a second line. */
+.nav-icon {
+  display: none;
+  width: 16px;
+  height: 16px;
+  fill: currentcolor;
+  vertical-align: -3px;
+}
+
+@media (width < 768px) {
+  .nav-icon {
+    display: inline-block;
+  }
+
+  .blog-nav-item-external .nav-label {
+    display: none;
+  }
+
+  .blog-nav-item-external::after {
+    content: none;
+  }
 }
 
 /* Theme switcher (CSS-only): visually hidden checkbox + label */
