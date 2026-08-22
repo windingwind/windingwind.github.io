@@ -21,6 +21,29 @@ function parseFrontmatter(src) {
   return { data, body: src.slice(match[0].length) };
 }
 
+/**
+ * Adds ids to h1–h3 headings in rendered post HTML and collects them as
+ * outline entries for the table of contents.
+ */
+function buildOutline(html) {
+  const used = new Set();
+  const headings = [];
+  const withIds = html.replace(/<h([1-3])>([\s\S]*?)<\/h\1>/g, (_full, level, inner) => {
+    const text = inner.replace(/<[^>]+>/g, "").trim();
+    let id =
+      text
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, "")
+        .trim()
+        .replace(/\s+/g, "-") || "section";
+    for (let n = 2; used.has(id); n++) id = `${id.replace(/-\d+$/, "")}-${n}`;
+    used.add(id);
+    headings.push({ level: Number(level), text, id });
+    return `<h${level} id="${id}">${inner}</h${level}>`;
+  });
+  return { html: withIds, headings };
+}
+
 /** Loads all posts from content/blog/, newest first. */
 export function loadPosts() {
   let files;
@@ -33,7 +56,7 @@ export function loadPosts() {
     .map((file) => {
       const src = readFileSync(`${BLOG_DIR}/${file}`, "utf8");
       const { data, body } = parseFrontmatter(src);
-      const html = marked.parse(body);
+      const { html, headings } = buildOutline(marked.parse(body));
       const slug = file.replace(/\.md$/, "");
       const firstParagraph = (html.match(/<p>([\s\S]*?)<\/p>/)?.[1] ?? "").replace(/<[^>]+>/g, "");
       return {
@@ -42,6 +65,7 @@ export function loadPosts() {
         date: data.date ? new Date(data.date) : lastModified(`${BLOG_DIR}/${file}`),
         excerpt: data.description || firstParagraph,
         html,
+        headings,
       };
     })
     .sort((a, b) => b.date - a.date);
@@ -124,6 +148,49 @@ ${content}
 `;
 }
 
+/** Sidebar outline of the post's headings, sticky-positioned on wide screens. */
+function outlineHtml(headings) {
+  if (!headings.length) return "";
+  const minLevel = Math.min(...headings.map((h) => h.level));
+  const items = headings
+    .map(
+      (h) =>
+        `            <li class="post-toc-depth-${h.level - minLevel}"><a href="#${h.id}">${escapeHtml(h.text)}</a></li>`,
+    )
+    .join("\n");
+  return `
+      <aside class="blog-sidebar">
+        <nav class="post-toc" aria-label="Post outline">
+          <h4>Contents</h4>
+          <ul>
+${items}
+          </ul>
+        </nav>
+      </aside>`;
+}
+
+/** Highlights the outline entry of the section currently in view. */
+const TOC_SPY_SCRIPT = `    <script>
+      (function () {
+        var links = document.querySelectorAll(".post-toc a");
+        if (!links.length) return;
+        var heads = Array.prototype.map.call(links, function (link) {
+          return document.getElementById(decodeURIComponent(link.hash.slice(1)));
+        });
+        function update() {
+          var current = -1;
+          for (var i = 0; i < heads.length; i++) {
+            if (heads[i] && heads[i].getBoundingClientRect().top <= 80) current = i;
+          }
+          for (var j = 0; j < links.length; j++) {
+            links[j].classList.toggle("active", j === current);
+          }
+        }
+        addEventListener("scroll", update, { passive: true });
+        update();
+      })();
+    </script>`;
+
 function postPageHtml(post, cssHref) {
   return pageShell({
     title: `${post.title} · Xiangyu Wang`,
@@ -139,8 +206,9 @@ ${post.html}
           </div>
           <p class="post-back-link"><a href="/#blog">← All posts</a></p>
         </article>
-      </main>
-    </div>`,
+      </main>${outlineHtml(post.headings)}
+    </div>
+${TOC_SPY_SCRIPT}`,
   });
 }
 

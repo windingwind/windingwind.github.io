@@ -427,6 +427,72 @@ hr {
 }
 
 /*
+ * Post outline (table of contents), floating alongside the article
+ */
+
+.post-toc {
+  position: sticky;
+  top: 70px;
+  max-height: calc(100vh - 90px);
+  padding: 15px 0;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+.post-toc h4 {
+  margin: 0 0 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--meta-color);
+}
+
+.post-toc ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.post-toc li {
+  margin: 0;
+}
+
+.post-toc a {
+  display: block;
+  padding: 4px 10px;
+  color: var(--meta-color);
+  border-left: 2px solid var(--hr-color);
+  text-decoration: none;
+}
+
+.post-toc a:hover,
+.post-toc a:focus {
+  color: var(--link-hover-color);
+  text-decoration: none;
+}
+
+.post-toc a.active {
+  color: var(--link-color);
+  border-left-color: var(--link-color);
+}
+
+.post-toc-depth-1 a {
+  padding-left: 24px;
+}
+
+.post-toc-depth-2 a {
+  padding-left: 38px;
+}
+
+/* On narrow screens the sidebar stacks below the article, where an
+   outline is useless — hide it. */
+@media (width < 768px) {
+  .post-toc {
+    display: none;
+  }
+}
+
+/*
  * Blog posts
  */
 
