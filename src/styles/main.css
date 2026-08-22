@@ -305,8 +305,13 @@ hr {
   user-select: none;
 }
 
-.theme-toggle:hover {
-  background-color: rgb(255 255 255 / 10%);
+/* SVG icons follow the label's `color`, so the toggle inherits the same
+   muted-to-bright hover as the other nav links. */
+.theme-icon {
+  width: 16px;
+  height: 16px;
+  fill: currentcolor;
+  vertical-align: -3px;
 }
 
 .theme-switch:focus-visible + .theme-toggle {
