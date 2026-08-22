@@ -524,6 +524,57 @@ hr {
   margin-bottom: 8px;
 }
 
+/*
+ * Older/newer post navigation at the end of a post
+ */
+
+.post-nav {
+  display: flex;
+  gap: 15px;
+  padding-top: 20px;
+  margin-top: 40px;
+  border-top: 1px solid var(--hr-color);
+}
+
+.post-nav-link,
+.post-nav-spacer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 50%;
+}
+
+.post-nav-link {
+  padding: 10px 15px;
+  border: 1px solid var(--hr-color);
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.post-nav-newer {
+  text-align: right;
+}
+
+.post-nav-link:hover,
+.post-nav-link:focus {
+  border-color: var(--link-color);
+  text-decoration: none;
+}
+
+.post-nav-label {
+  font-size: 13px;
+  color: var(--meta-color);
+}
+
+.post-nav-title {
+  font-size: 15px;
+  color: var(--link-color);
+}
+
+.post-nav-link:hover .post-nav-title {
+  color: var(--link-hover-color);
+}
+
 .post-back-link {
   margin-top: 30px;
 }

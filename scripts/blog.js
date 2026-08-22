@@ -191,7 +191,27 @@ const TOC_SPY_SCRIPT = `    <script>
       })();
     </script>`;
 
-function postPageHtml(post, cssHref) {
+/** Older/newer navigation at the end of a post. Posts are sorted newest first. */
+function postNavHtml(posts, index) {
+  const newer = posts[index - 1];
+  const older = posts[index + 1];
+  if (!newer && !older) return "";
+  const link = (post, cls, label) =>
+    post
+      ? `            <a class="post-nav-link ${cls}" href="/blog/${encodeURIComponent(post.slug)}/">
+              <span class="post-nav-label">${label}</span>
+              <span class="post-nav-title">${escapeHtml(post.title)}</span>
+            </a>`
+      : `            <span class="post-nav-spacer"></span>`;
+  return `
+          <nav class="post-nav" aria-label="Adjacent posts">
+${link(older, "post-nav-older", "← Older")}
+${link(newer, "post-nav-newer", "Newer →")}
+          </nav>`;
+}
+
+function postPageHtml(post, posts, cssHref) {
+  const index = posts.indexOf(post);
   return pageShell({
     title: `${post.title} · Xiangyu Wang`,
     cssHref,
@@ -203,7 +223,7 @@ function postPageHtml(post, cssHref) {
           <hr />
           <div class="markdown-body">
 ${post.html}
-          </div>
+          </div>${postNavHtml(posts, index)}
           <p class="post-back-link"><a href="/#blog">← All posts</a></p>
         </article>
       </main>${outlineHtml(post.headings)}
@@ -248,10 +268,11 @@ export function blogPlugin() {
         const url = req.url.split("?")[0];
         const match = url.match(/^\/blog\/([^/]+)\/?(index\.html)?$/);
         if (match) {
-          const post = loadPosts().find((p) => p.slug === decodeURIComponent(match[1]));
+          const posts = loadPosts();
+          const post = posts.find((p) => p.slug === decodeURIComponent(match[1]));
           if (post) {
             res.setHeader("Content-Type", "text/html");
-            return res.end(postPageHtml(post, DEV_CSS_HREF));
+            return res.end(postPageHtml(post, posts, DEV_CSS_HREF));
           }
         }
         next();
@@ -265,7 +286,7 @@ export function blogPlugin() {
         this.emitFile({
           type: "asset",
           fileName: `blog/${post.slug}/index.html`,
-          source: postPageHtml(post, cssHref),
+          source: postPageHtml(post, posts, cssHref),
         });
       }
     },
